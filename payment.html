@@ -138,41 +138,37 @@ footer {
   <button class="link-btn" onclick="goHome()">กลับไปหน้าแรก</button>
 
   <script>
-    function addPaidStudent(name, id, slip) {
-      let paid = JSON.parse(localStorage.getItem("paidStudents")) || [];
-      paid.push({ name, id, slip });
-      localStorage.setItem("paidStudents", JSON.stringify(paid));
-    }
+        const apiUrl = 'http://localhost:3000';
 
-    // แสดงชื่อไฟล์ที่เลือก
-  document.getElementById("slipFile").addEventListener("change", function() {
-   const fileName = this.files.length > 0 ? this.files[0].name : "ยังไม่ได้เลือกไฟล์";
-   document.getElementById("fileName").textContent = fileName;
-});
+        async function submitPayment() {
+            const id = document.getElementById('studentId').value;
+            const name = document.getElementById('studentName').value;
+            const date = document.getElementById('paymentDate').value;
+            const messageElement = document.getElementById('message');
 
-    function validateForm() {
-      const name = document.getElementById("studentName").value.trim();
-      const id = document.getElementById("studentId").value.trim();
-      const file = document.getElementById("slipFile").files[0];
+            try {
+                // ตรวจสอบก่อนว่ามีรหัสนักศึกษานี้ในระบบหรือไม่
+                const studentsResponse = await fetch(`${apiUrl}/students`);
+                const students = await studentsResponse.json();
+                if (!students.includes(id)) {
+                    messageElement.textContent = 'ไม่พบรหัสนักศึกษานี้ในระบบ';
+                    return;
+                }
 
-      if (!name || !id || !file) {
-        alert("กรอกข้อมูลให้ครบ");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        addPaidStudent(name, id, e.target.result);
-        alert("บันทึกการชำระเงินเรียบร้อย");
-        window.location.href = "index.html";
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function goHome() {
-      window.location.href = "index.html";
-    }
-  </script>
+                // ส่งข้อมูลการจ่ายเงิน
+                const paymentResponse = await fetch(`${apiUrl}/paid`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, name, date })
+                });
+                const result = await paymentResponse.json();
+                messageElement.textContent = result.message;
+            } catch (error) {
+                messageElement.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อกับ Server';
+            }
+        }
+    </script>
 </body>
 </html>
+
 
