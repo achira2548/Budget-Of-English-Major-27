@@ -64,28 +64,33 @@ a.back-link:hover {
   <a class="back-link" href="index.html">กลับสู่หน้าหลัก</a>
 
   <script>
-    function loadUnpaid() {
-      const allStudents = JSON.parse(localStorage.getItem("students")) || [];
-      const paidStudents = JSON.parse(localStorage.getItem("paidStudents")) || [];
+        const apiUrl = 'http://localhost:3000';
 
-      const paidIds = paidStudents.map(s => s.id);
-      const unpaid = allStudents.filter(s => !paidIds.includes(s.id));
+        async function fetchUnpaidStudents() {
+            try {
+                const studentsResponse = await fetch(`${apiUrl}/students`);
+                const allStudents = await studentsResponse.json();
 
-      const list = document.getElementById("studentList");
-      list.innerHTML = "";
+                const paidResponse = await fetch(`${apiUrl}/paid`);
+                const paidStudentsData = await paidResponse.json();
+                const paidStudentIds = paidStudentsData.map(s => s.id);
 
-      if (unpaid.length === 0) {
-        list.innerHTML = "<p>นักศึกษาทุกคนชำระเงินแล้ว</p>";
-        return;
-      }
+                const unpaidStudents = allStudents.filter(id => !paidStudentIds.includes(id));
 
-      unpaid.forEach(s => {
-        const li = document.createElement("li");
-        li.textContent = `${s.id} - ${s.name}`;
-        list.appendChild(li);
-      });
-    }
-    loadUnpaid();
-  </script>
+                const listElement = document.getElementById('unpaidList');
+                listElement.innerHTML = '';
+                unpaidStudents.forEach(id => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = id;
+                    listElement.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('เกิดข้อผิดพลาด:', error);
+            }
+        }
+
+        window.onload = fetchUnpaidStudents;
+    </script>
 </body>
 </html>
+
