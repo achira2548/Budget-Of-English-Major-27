@@ -106,19 +106,40 @@
   <footer></footer>
 
   <script>
-    function login() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const errorMsg = document.getElementById("errorMsg");
+        const apiUrl = 'http://localhost:3000';
 
-      if (username === "adminsla" && password === "sla272567") {
-          window.location.href = "adddelete1.html";
-      } else {
-          errorMsg.textContent = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
-      }
-    }
-  </script>
+        async function addStudent() {
+            const id = document.getElementById('studentId').value;
+            const messageElement = document.getElementById('message');
+            try {
+                const response = await fetch(`${apiUrl}/students`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+                messageElement.textContent = result.message;
+            } catch (error) {
+                messageElement.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อกับ Server';
+            }
+        }
+
+        async function deleteStudent() {
+            const id = document.getElementById('studentId').value;
+            const messageElement = document.getElementById('message');
+            try {
+                const response = await fetch(`${apiUrl}/students/${id}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+                messageElement.textContent = result.message;
+            } catch (error) {
+                messageElement.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อกับ Server';
+            }
+        }
+    </script>
 </body>
 </html>
+
 
 
