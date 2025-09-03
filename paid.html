@@ -67,7 +67,9 @@
     <input type="text" id="username" placeholder="Username………">
     <input type="password" id="password" placeholder="Password………">
     
+  
     <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
+  
 
     <div class="error" id="errorMsg"></div>
     <a href="index.html">กลับสู่หน้าหลัก</a>
@@ -82,7 +84,7 @@
       const password = document.getElementById("password").value;
       const errorMsg = document.getElementById("errorMsg");
 
-      if (username !== "67131888") {
+      if (username !== "adminsla") {
         errorMsg.textContent = "รหัสนักศึกษาไม่ถูกต้อง";
         return;
       }
@@ -92,17 +94,15 @@
         return;
       }
 
-      if (password !== "12345678") {
+      if (password !== "sla272567") {
         errorMsg.textContent = "รหัสผ่านไม่ถูกต้อง";
         return;
       }
 
       // หากผ่านเงื่อนไขให้ redirect ไปหน้าแสดงผล
-      window.location.href = `paid_students.html?student_id=${username}`;
+      window.location.href = `paid1.html?student_id=${username}`;
     }
   </script>
 
 </body>
 </html>
-
-
