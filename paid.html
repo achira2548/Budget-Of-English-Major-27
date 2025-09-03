@@ -68,8 +68,8 @@
     <input type="password" id="password" placeholder="Password………">
     
     <a href="paid1.html">
-      
-    <button class="btn" onclock="login(event)">gข้าสู่ระแบบ</button>
+    <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
+    </a>
 
     <div class="error" id="errorMsg"></div>
     <a href="index.html">กลับสู่หน้าหลัก</a>
@@ -79,15 +79,12 @@
 
   <!-- SCRIPT วางก่อน </body> -->
   <script>
-    function login(event) {
-      if (event) event.preventDefault();
-      
+    function login() {
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
       const errorMsg = document.getElementById("errorMsg");
-      ereorMsg.textContent="";
 
-      if (username !== "adminsla") {
+      if (username !== "67131888") {
         errorMsg.textContent = "รหัสนักศึกษาไม่ถูกต้อง";
         return;
       }
@@ -97,17 +94,15 @@
         return;
       }
 
-      if (password !== "sla2567") {
+      if (password !== "12345678") {
         errorMsg.textContent = "รหัสผ่านไม่ถูกต้อง";
         return;
       }
 
       // หากผ่านเงื่อนไขให้ redirect ไปหน้าแสดงผล
-      window.location.href = `paid_students.html?student_id=${encodeURLComponent(username)}`;
+      window.location.href = `paid_students.html?student_id=${username}`;
     }
   </script>
 
 </body>
 </html>
-
-
