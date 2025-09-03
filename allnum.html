@@ -56,19 +56,26 @@
     </div>
 
     <script>
-        function loadStudents() {
-            let students = JSON.parse(localStorage.getItem("students")) || [];
-            const list = document.getElementById("allStudentsList");
+        const apiUrl = 'http://localhost:3000';
 
-            if (students.length === 0) {
-                list.innerHTML = "<p>ยังไม่มีรายชื่อนักศึกษาในระบบ</p>";
-                return;
+        async function fetchAllStudents() {
+            try {
+                const response = await fetch(`${apiUrl}/students`);
+                const students = await response.json();
+                const listElement = document.getElementById('studentList');
+                listElement.innerHTML = '';
+                students.forEach(id => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = id;
+                    listElement.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('เกิดข้อผิดพลาด:', error);
             }
-
-            list.innerHTML = students.map(s => `<li>${s.id} - ${s.name}</li>`).join("");
         }
 
-        loadStudents();
+        window.onload = fetchAllStudents;
     </script>
 </body>
 </html>
+
