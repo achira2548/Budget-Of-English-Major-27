@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เข้าสู่ระบบผู้ชำระเงินแล้ว</title>
   <style>
+    
     body {
       margin: 0;
       font-family: Tahoma, sans-serif;
@@ -16,6 +17,7 @@
       justify-content: center;
       align-items: center;
     }
+
     input[type="text"], input[type="password"] {
       width: 90%;
       max-width: 400px;
@@ -24,6 +26,7 @@
       border: 1px solid #ccc;
       border-radius: 25px;
     }
+
     .btn {
       background-color: #1c2c53;
       color: white;
@@ -35,9 +38,11 @@
       margin-top: 20px;
       font-weight: bold;
     }
+
     .btn:hover {
       background-color: #2f3c66;
     }
+
     .back-link {
       display: block;
       margin-top: 15px;
@@ -45,43 +50,41 @@
       text-decoration: none;
       font-weight: bold;
     }
+
     .back-link:hover {
       text-decoration: underline;
     }
+
     .error {
       color: red;
       margin-top: 10px;
     }
   </style>
-</head>
-<body>
 
   <header>เข้าสู่ระบบรหัสนักศึกษาผู้ที่ชำระเงินแล้ว</header>
 
   <main>
     <input type="text" id="username" placeholder="Username………">
     <input type="password" id="password" placeholder="Password………">
-
-    <!-- ปุ่มเรียก login() -->
-    <button class="btn" onclick="login(event)">เข้าสู่ระบบ</button>
+    
+    <a href="paid1.html">
+    <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
+    </a>
 
     <div class="error" id="errorMsg"></div>
-    <a class="back-link" href="index.html">กลับสู่หน้าหลัก</a>
+    <a href="index.html">กลับสู่หน้าหลัก</a>
   </main>
 
   <footer></footer>
 
+  <!-- SCRIPT วางก่อน </body> -->
   <script>
-    function login(event) {
-      // กันไม่ให้ form (ถ้ามี) reload หน้า
-      if (event) event.preventDefault();
-
+    function login() {
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
       const errorMsg = document.getElementById("errorMsg");
-      errorMsg.textContent = "";
 
-      if (username !== "adminsla") {
+      if (username !== "67131888") {
         errorMsg.textContent = "รหัสนักศึกษาไม่ถูกต้อง";
         return;
       }
@@ -91,22 +94,16 @@
         return;
       }
 
-      if (password !== "sla2567") {
+      if (password !== "12345678") {
         errorMsg.textContent = "รหัสผ่านไม่ถูกต้อง";
         return;
       }
 
-      // ผ่านเงื่อนไขแล้ว redirect ไปหน้าแสดงผล
-      window.location.href = `paid_students.html?student_id=${encodeURIComponent(username)}`;
+      // หากผ่านเงื่อนไขให้ redirect ไปหน้าแสดงผล
+      window.location.href = `paid_students.html?student_id=${username}`;
     }
-
-    // อนุญาตกด Enter เพื่อเข้าสู่ระบบ
-    document.getElementById("password").addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        login(e);
-      }
-    });
   </script>
 
 </body>
 </html>
+
